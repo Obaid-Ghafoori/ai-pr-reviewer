@@ -1,0 +1,57 @@
+.env 
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+.env/
+
+# macOS system files
+.DS_Store
+
+# Log files
+*.log
+
+# Configurations
+*.ini
+*.cfg
+
+# Environment variables
+.env
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# IDE-specific files
+.vscode/
+.idea/
+
+# Ngrok auth token
+ngrok.yml
+
+# Dependency files
+*.lock
+
+# Build and distribution
+build/
+dist/
+*.egg-info/
+*.whl
+
+# Coverage reports
+htmlcov/
+*.coverage
+.coverage.*
+.cache
+
+# Generated documentation
+docs/_build/
+
+# Temporary files and directories
+*.tmp
+*.bak
+*.swp
+*.swo
+*.swn
