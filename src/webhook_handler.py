@@ -66,6 +66,37 @@ def parse_pull_request_payload(payload):
         "branch": pull_request.get("head", {}).get("ref"),
     }
 
+# def process_pull_request(payload, github_token):
+#     """
+#     Processes the pull request event by fetching and handling the diff content.
+
+#     Args:
+#         payload (dict): The JSON payload received from the webhook.
+#         github_token (str): GitHub personal access token for authentication.
+
+#     Returns:
+#         dict: Processed data including diff content, PR details, and AI review suggestions.
+
+#     Raises:
+#         Exception: If there are issues fetching the diff or processing the PR.
+#     """
+#     pr_details = parse_pull_request_payload(payload)
+#     if not pr_details:
+#         raise ValueError("Unsupported or irrelevant pull request action.")
+
+#     diff_url = pr_details.get("diff_url")
+#     diff_content = fetch_pr_diff(diff_url, github_token)
+
+#     # Integrate AI review logic
+#     suggestions = analyze_diff(diff_content)
+
+#     return {
+#         "message": "Pull request processed successfully.",
+#         "pr_details": pr_details,
+#         "diff_content": diff_content,
+#         "suggestions": suggestions, 
+#     }
+
 def process_pull_request(payload, github_token):
     """
     Processes the pull request event by fetching and handling the diff content.
@@ -75,7 +106,7 @@ def process_pull_request(payload, github_token):
         github_token (str): GitHub personal access token for authentication.
 
     Returns:
-        dict: Processed data including diff content, PR details, and AI review suggestions.
+        dict: Processed data including diff content and PR details.
 
     Raises:
         Exception: If there are issues fetching the diff or processing the PR.
@@ -85,15 +116,25 @@ def process_pull_request(payload, github_token):
         raise ValueError("Unsupported or irrelevant pull request action.")
 
     diff_url = pr_details.get("diff_url")
-    diff_content = fetch_pr_diff(diff_url, github_token)
+    try:
+        # Attempt to fetch the diff content
+        diff_content = fetch_pr_diff(diff_url, github_token)
+    except Exception as e:
+        # Log and handle errors during diff fetching
+        logging.error(f"Error fetching PR diff: {str(e)}")
+        return {
+            "error": f"Internal server error: {str(e)}",
+            "details": pr_details,  # Include PR details for debugging purposes
+        }
 
-    # Integrate AI review logic
-    suggestions = analyze_diff(diff_content)
+    # Example integration point for AI review logic
+    review_results = analyze_diff(diff_content)
 
     return {
         "message": "Pull request processed successfully.",
         "pr_details": pr_details,
         "diff_content": diff_content,
-        "suggestions": suggestions, 
+        "review_results": review_results,
     }
+
 
