@@ -7,7 +7,9 @@ app = Flask(__name__)
 
 # Load environment variables from .env file
 load_dotenv()
+
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
+# print(f"GITHUB_TOKEN loaded: {GITHUB_TOKEN}") 
 if not GITHUB_TOKEN:
     raise ValueError("GITHUB_TOKEN environment variable not set")
 
@@ -33,3 +35,9 @@ def handle_webhook():
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
+
+
+@app.route("/webhook", methods=["GET"])
+def test_webhook():
+    return jsonify({"message": "Webhook endpoint is live!"}), 200
+
