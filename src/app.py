@@ -1,5 +1,7 @@
 from flask import Flask, request, jsonify
-from webhook_handler import is_pull_request_event, parse_pull_request_payload, fetch_pr_diff
+from webhook_handler import is_pull_request_event, parse_pull_request_payload
+from utils import fetch_pr_diff
+
 from dotenv import load_dotenv
 import os
 
