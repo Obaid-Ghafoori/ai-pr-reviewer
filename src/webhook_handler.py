@@ -2,6 +2,7 @@ import requests
 import logging
 from utils import fetch_pr_diff  
 
+
 def fetch_pr_diff(diff_url, github_token):
     """
     Fetches the diff of the pull request using GitHub API.
@@ -74,7 +75,7 @@ def process_pull_request(payload, github_token):
         github_token (str): GitHub personal access token for authentication.
 
     Returns:
-        dict: Processed data including diff content and PR details.
+        dict: Processed data including diff content, PR details, and AI review suggestions.
 
     Raises:
         Exception: If there are issues fetching the diff or processing the PR.
@@ -86,11 +87,13 @@ def process_pull_request(payload, github_token):
     diff_url = pr_details.get("diff_url")
     diff_content = fetch_pr_diff(diff_url, github_token)
 
-    # Example integration point for AI review logic (placeholder)
-    # review_results = ai_review(diff_content)
+    # Integrate AI review logic
+    suggestions = analyze_diff(diff_content)
 
     return {
         "message": "Pull request processed successfully.",
         "pr_details": pr_details,
         "diff_content": diff_content,
+        "suggestions": suggestions, 
     }
+
