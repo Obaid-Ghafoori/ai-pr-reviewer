@@ -55,7 +55,7 @@ def parse_pull_request_payload(payload):
         ValueError: If critical data like `diff_url` is missing.
     """
     action = payload.get("action")
-    allowed_actions = ["opened", "synchronize", "created", "edited", "deleted"]
+    allowed_actions = ["opened", "synchronize", "created", "edited", "deleted", "closed"]
 
     if action not in allowed_actions:
         return None  # Ignore irrelevant actions
@@ -70,6 +70,16 @@ def parse_pull_request_payload(payload):
     pull_request = payload.get("pull_request", {})
     diff_url = pull_request.get("diff_url")
 
+
+    if action == "closed":
+        merged = pull_request.get("merged", False)
+        return {
+            "action": action,
+            "repository": payload.get("repository", {}).get("full_name"),
+            "pull_request_number": pull_request.get("number"),
+            "merged": merged,
+        }
+    
      # Log the extracted diff_url for debugging
     logging.info(f"Extracted diff_url: {diff_url}")
     print(f"here we extracted diff_url: {diff_url}")
