@@ -56,7 +56,7 @@ def parse_pull_request_payload(payload):
 
      # Log the extracted diff_url for debugging
     logging.info(f"Extracted diff_url: {diff_url}")
-    print(f"Extracted diff_url: {diff_url}")
+    print(f"here we extracted diff_url: {diff_url}")
 
     if not diff_url:
         raise ValueError("Missing 'diff_url' in the pull request payload.")
