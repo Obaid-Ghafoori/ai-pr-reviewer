@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from webhook_handler import is_pull_request_event, parse_pull_request_payload
+from webhook_handler import is_pull_request_event, parse_pull_request_payload, process_pull_request
 from utils import fetch_pr_diff
 
 from dotenv import load_dotenv
@@ -29,17 +29,19 @@ def handle_webhook():
         return jsonify({"message": "Unsupported pull request action."}), 400
 
     try:
-        diff_content = fetch_pr_diff(pr_details["diff_url"], GITHUB_TOKEN)
-        # Placeholder for AI review logic integration
-        return jsonify({"message": "Pull request processed.", "pr_details": pr_details}), 200
+        analysis_results = process_pull_request(payload, GITHUB_TOKEN)
+        return jsonify(analysis_results), 200
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+        return jsonify({"error": f"Internal server error: {str(e)}, {e.__cause__, e.__context__, e.with_traceback}"}), 500
 
 
 @app.route("/webhook", methods=["GET"])
 def test_webhook():
+    """
+    Test endpoint to verify if the webhook is live.
+    """
     return jsonify({"message": "Webhook endpoint is live!"}), 200
+
+if __name__ == "__main__":
+    app.run(debug=True, port=5000)
 
