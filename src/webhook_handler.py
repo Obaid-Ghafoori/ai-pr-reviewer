@@ -56,6 +56,7 @@ def parse_pull_request_payload(payload):
 
      # Log the extracted diff_url for debugging
     logging.info(f"Extracted diff_url: {diff_url}")
+    print(f"Extracted diff_url: {diff_url}")
 
     if not diff_url:
         raise ValueError("Missing 'diff_url' in the pull request payload.")
@@ -96,6 +97,7 @@ def process_pull_request(payload, github_token):
     try:
         # Attempt to fetch the diff content
         diff_content = fetch_pr_diff(diff_url, github_token)
+        logging.info("Pull request diff fetched successfully from {diff_url}")
     except Exception as e:
         # Log and handle errors during diff fetching
         logging.error(f"Error fetching PR diff: {str(e)}")

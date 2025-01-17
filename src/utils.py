@@ -1,4 +1,6 @@
+import logging
 import requests
+
 
 # def fetch_pr_diff(diff_url, github_token):
 #     """
@@ -29,9 +31,6 @@ import requests
 
 #     return response.text
 
-
-import logging
-import requests
 
 def fetch_pr_diff(diff_url, github_token):
     """
