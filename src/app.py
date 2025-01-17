@@ -7,7 +7,6 @@ import os
 
 app = Flask(__name__)
 
-# Load environment variables from .env file
 load_dotenv()
 
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
